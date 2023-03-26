@@ -1,11 +1,17 @@
 #Programm to create a lozenge-star.
+#example:
+#r=rautenstern(5)
+#r.export()
 from numpy import *
 from matplotlib.pyplot import *
 class rautenstern:
 	def __init__(self,n):
 		self.__ecken=int(n)
+		#the number of layers (__schalen) is determined by the number of central vertices (__ecken)
 		self.__schalen=int(ceil(n/2))
 		self.plotter()
+	# r and alpha are polarcoordinates of the vertices
+	# phi is the angle between two edges in a specific layer (schale)
 	def phi(self,schale):
 		return 2*schale/self.__ecken*pi
 	def alpha(self,ecke,schale):
@@ -23,10 +29,12 @@ class rautenstern:
 			return sum(rlist)
 		else:
 			return sum(rlist)+1
+	# x and y calculate the cartesian coordinates.
 	def x(self,r,alpha):
 		return r*cos(alpha)
 	def y(self,r,alpha):
 		return r*sin(alpha)
+	# plotter draws the needed edges between the vertices. 
 	def plotter(self):
 		for schale in range(1,self.__schalen+1):
 			for ecke in range(self.ecken):
@@ -59,6 +67,7 @@ class rautenstern:
 					y3=self.y(r3,alpha3)
 					plot([x1,x2,x3],[y1,y2,y3],'k',linewidth='0.1')
 		axis('square')
+	#exporting as png image can be done with the export-method.
 	def export(self):
 		name='raute'+str(self.ecken)+'.png'
 		savefig(name,dpi=1000,bbox_inches='tight')
